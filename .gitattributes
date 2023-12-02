@@ -1,0 +1,9 @@
+# default
+* text=auto
+
+# always LF
+*.{sh,bash,zsh,ksh} text eol=lf
+
+# always CRLF
+*.{cmd,bat} text eol=crlf
+
