@@ -16,10 +16,11 @@ public abstract class BaseAocProcessor<T> implements AocProcessor<T> {
         this.id = id;
     }
 
-    public void run(Part part, Type type) {
+    public boolean run(Part part, Type type) {
         var expected = RESOURCES.readSolution(id, part, type);
         var result = String.valueOf(process(part, type));
         var color = expected.isEmpty() ? YELLOW : expected.get().equals(result) ? GREEN : RED;
         System.out.println(color + result + RESET);
+        return color.equals(GREEN);
     }
 }
