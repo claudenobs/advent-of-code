@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import static ch.stormwind.aoc.AocProcessor.Part.PART1;
+import static ch.stormwind.aoc.AocProcessor.Part.PART2;
+
 public class Aoc2302 extends BaseAocProcessor<Integer> {
 
     private static final List<String> COLORS = List.of("red", "green", "blue");
@@ -22,17 +25,20 @@ public class Aoc2302 extends BaseAocProcessor<Integer> {
         var s = new Scanner(new ByteArrayInputStream(input.getBytes()));
         int result = 0;
         for (int i = 1; s.hasNext(); i++) {
-            var r = processLine(s.nextLine().split(": ")[1]);
-            LOGGER.log(1, i + ": " + r);
-            if (r)
+            var l = s.nextLine().split(": ")[1];
+            if (part == PART1 && part1(l)) {
+                LOGGER.log(1, i);
                 result += i;
+            }
+            if (part == PART2) {
+                result += part2(l);
+            }
         }
         return result;
     }
 
-    private static boolean processLine(String l) {
+    private boolean part1(String l) {
         for (String game : l.split("; ")) {
-            LOGGER.log(2, game);
             for (String[] color : Arrays.stream(game.split(", ")).map(c -> c.split(" ")).toList()) {
                 LOGGER.log(2, color[0] + " " + color[1]);
                 int max = MAX_SIZE[COLORS.indexOf(color[1])];
@@ -41,5 +47,19 @@ public class Aoc2302 extends BaseAocProcessor<Integer> {
             }
         }
         return true;
+    }
+
+    private int part2(String l) {
+        int[] min = new int[3];
+        for (String game : l.split("; ")) {
+            for (String[] color : Arrays.stream(game.split(", ")).map(c -> c.split(" ")).toList()) {
+                LOGGER.log(2, color[0] + " " + color[1]);
+                int count = Integer.valueOf(color[0]);
+                int index = COLORS.indexOf(color[1]);
+                if (count > min[index])
+                    min[index] = count;
+            }
+        }
+        return min[0] * min[1] * min[2];
     }
 }
