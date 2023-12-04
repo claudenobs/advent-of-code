@@ -31,4 +31,10 @@ class AocTest {
     void aoc_2023_01(Part part, Type type) {
         assertTrue(new Aoc2301().run(part, type));
     }
+
+    @ParameterizedTest
+    @ArgumentsSource(ParamsProvider.class)
+    void aoc_2023_02(Part part, Type type) {
+        assertTrue(new Aoc2302().run(part, type));
+    }
 }
