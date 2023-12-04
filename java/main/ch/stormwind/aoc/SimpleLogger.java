@@ -2,6 +2,9 @@ package ch.stormwind.aoc;
 
 import java.io.PrintStream;
 
+import static ch.stormwind.aoc.JdkConvenience.env;
+import static ch.stormwind.aoc.JdkConvenience.property;
+
 /**
  * The most simplistic logger ever.
  */
@@ -11,7 +14,7 @@ public class SimpleLogger {
     private final PrintStream out;
 
     public SimpleLogger(int level) {
-        this.level = level;
+        this.level = env("LOG_LEVEL").or(() -> property("LOG_LEVEL")).map(Integer::valueOf).orElse(level);
         this.out = System.out;
     }
 
