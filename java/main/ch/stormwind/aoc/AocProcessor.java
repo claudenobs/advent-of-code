@@ -9,5 +9,7 @@ public interface AocProcessor<T> {
     record Id(int year, int day) {
     }
 
+    Id id();
+
     T process(Part part, Type type);
 }
