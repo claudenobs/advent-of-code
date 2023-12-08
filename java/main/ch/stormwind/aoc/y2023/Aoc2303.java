@@ -3,8 +3,10 @@ package ch.stormwind.aoc.y2023;
 import ch.stormwind.aoc.BaseAocProcessor;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static ch.stormwind.aoc.AocProcessor.Part.PART1;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -24,43 +26,35 @@ public class Aoc2303 extends BaseAocProcessor<Integer> {
         var lines = input.split("\n");
         var result = 0;
         for (int i = 0; i < lines.length; i++) {
-            result += part == Part.PART1 ? part1(lines, i) : part2(lines, i);
-        }
-        return result;
-    }
-
-    private int part1(String[] lines, int i) {
-        var result = 0;
-        var m = number.matcher(lines[i]);
-        while (m.find()) {
-            for (int y = max(0, i - 1); y < min(i + 2, lines.length); y++) {
-                for (int x = max(0, m.start() - 1); x < min(m.end() + 1, lines[i].length()); x++) {
-                    var c = lines[y].substring(x, x + 1);
-                    if (symbol.matcher(c).matches()) {
-                        result += Integer.valueOf(m.group(0));
-                    }
-                }
+            var m = (part == PART1 ? number : gear).matcher(lines[i]);
+            while (m.find()) {
+                result += part == PART1 ? part1(lines, i, m) : part2(lines, i, m);
             }
         }
         return result;
     }
 
-    private int part2(String[] lines, int i) {
-        var result = 0;
-        var m = gear.matcher(lines[i]);
-        while (m.find()) {
-            var ns = new ArrayList<Integer>();
-            var x = m.start();
-            for (int y = max(0, i - 1); y < min(i + 2, lines.length); y++) {
-                var n = number.matcher(lines[y]);
-                while (n.find()) {
-                    if (n.start() <= x + 1 && n.end() >= x)
-                        ns.add(Integer.valueOf(n.group(0)));
+    private int part1(String[] lines, int i, Matcher m) {
+        for (int y = max(0, i - 1); y < min(i + 2, lines.length); y++) {
+            for (int x = max(0, m.start() - 1); x < min(m.end() + 1, lines[i].length()); x++) {
+                var c = lines[y].substring(x, x + 1);
+                if (symbol.matcher(c).matches()) {
+                    return Integer.valueOf(m.group(0));
                 }
             }
-            if (ns.size() == 2)
-                result += ns.get(0) * ns.get(1);
         }
-        return result;
+        return 0;
+    }
+
+    private int part2(String[] lines, int i, Matcher m) {
+        var ns = new ArrayList<Integer>();
+        for (int y = max(0, i - 1); y < min(i + 2, lines.length); y++) {
+            var n = number.matcher(lines[y]);
+            while (n.find()) {
+                if (n.start() <= m.start() + 1 && n.end() >= m.start())
+                    ns.add(Integer.valueOf(n.group(0)));
+            }
+        }
+        return ns.size() == 2 ? ns.get(0) * ns.get(1) : 0;
     }
 }
