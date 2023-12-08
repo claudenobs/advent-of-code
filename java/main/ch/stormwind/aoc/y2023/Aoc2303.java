@@ -10,7 +10,7 @@ import static java.lang.Math.min;
 public class Aoc2303 extends BaseAocProcessor<Integer> {
 
     private static Pattern symbol = Pattern.compile("[^A-Za-z0-9.]");
-    private static Pattern pattern = Pattern.compile("\\d+");
+    private static Pattern number = Pattern.compile("\\d+");
 
     protected Aoc2303() {
         super(new Id(2023, 3));
@@ -22,15 +22,13 @@ public class Aoc2303 extends BaseAocProcessor<Integer> {
         var lines = input.split("\n");
         var result = 0;
         for (int i = 0; i < lines.length; i++) {
-            var line = lines[i];
-            var m = pattern.matcher(line);
+            var m = number.matcher(lines[i]);
             while (m.find()) {
-                int n = Integer.valueOf(m.group(0));
-                for (int j = max(0, m.start() - 1); j < min(m.end() + 1, line.length()); j++) {
-                    for (int k = max(0, i - 1); k < min(i + 2, lines.length); k++) {
-                        var c = lines[k].substring(j, j + 1);
+                for (int y = max(0, i - 1); y < min(i + 2, lines.length); y++) {
+                    for (int x = max(0, m.start() - 1); x < min(m.end() + 1, lines[i].length()); x++) {
+                        var c = lines[y].substring(x, x + 1);
                         if (symbol.matcher(c).matches()) {
-                            result += n;
+                            result += Integer.valueOf(m.group(0));
                         }
                     }
                 }
