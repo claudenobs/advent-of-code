@@ -5,6 +5,7 @@ import ch.stormwind.aoc.BaseAocProcessor;
 import java.util.regex.Pattern;
 
 import static ch.stormwind.aoc.AocProcessor.Part.PART1;
+import static ch.stormwind.aoc.AocProcessor.Part.PART2;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -26,16 +27,15 @@ public class Aoc2303 extends BaseAocProcessor<Integer> {
         for (int i = 0; i < lines.length; i++) {
             var cm = (part == PART1 ? number : gear).matcher(lines[i]);
             while (cm.find()) {
-                int first = -1; // only used for PART2
+                int first = 1; // only used for PART2
                 for (int y = max(0, i - 1); y < min(i + 2, lines.length); y++) {
                     var om = (part == PART1 ? symbol : number).matcher(lines[y]);
                     while (om.find()) {
                         var c = part == PART1 ? cm : om; var o = part == PART1 ? om : cm;
                         if (o.end() <= c.end() + 1 && o.start() >= c.start() - 1) {
                             var n = Integer.parseInt(c.group());
-                            if (part == PART1) { result += n; }
-                            else if (first < 0) { first = n; }
-                            else { result += first * n; first = -1; }
+                            if (part == PART2 && first == 1 ) { first = n; }
+                            else { result += first * n; first = 1; }
                         }
                     }
                 }

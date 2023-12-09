@@ -2,10 +2,8 @@ package ch.stormwind.aoc.y2023;
 
 import ch.stormwind.aoc.BaseAocProcessor;
 
-import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 import static ch.stormwind.aoc.AocProcessor.Part.PART1;
 import static ch.stormwind.aoc.AocProcessor.Part.PART2;
@@ -22,13 +20,13 @@ public class Aoc2302 extends BaseAocProcessor<Integer> {
     @Override
     public Integer process(Part part, Type type) {
         var input = RESOURCES.readInput(id, part, type);
-        var s = new Scanner(new ByteArrayInputStream(input.getBytes()));
+        var lines = input.split("\n");
         int result = 0;
-        for (int i = 1; s.hasNext(); i++) {
-            var l = s.nextLine().split(": ")[1];
+        for (int i = 0; i < lines.length; i++) {
+            var l = lines[i].split(": ")[1];
             if (part == PART1 && part1(l)) {
-                LOGGER.log(1, i);
-                result += i;
+                LOGGER.log(1, i + 1);
+                result += i + 1;
             }
             if (part == PART2) {
                 result += part2(l);
