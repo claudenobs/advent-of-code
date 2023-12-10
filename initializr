@@ -1,0 +1,4 @@
+#!/bin/sh
+# assumes correct setting of JAVA_HOME! (this is a project specific setting in intellij)
+if [ ! -f target/classes/ch/stormwind/aoc/AocInitializr.class ]; then mvnw compile; fi
+$JAVA_HOME/bin/java --enable-preview -cp target/classes ch.stormwind.aoc.AocInitializr "$@"

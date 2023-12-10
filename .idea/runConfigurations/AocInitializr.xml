@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="AocInitializr" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="ch.stormwind.aoc.AocInitializr" />
+    <module name="advent-of-code" />
+    <option name="PROGRAM_PARAMETERS" value="2023-04" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
